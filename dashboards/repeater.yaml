@@ -27,21 +27,21 @@ views:
               show: true
             config_templates: default
             yaxis:
-              - id: first
+              - id: left
                 decimals: 0
                 min: ~50
                 max: ~100
-              - id: second
+              - id: right
                 opposite: true
                 decimals: 1
                 min: ~3.2
                 max: ~4.2
             series:
               - entity: sensor.meshcore_<pubkey>_battery_percentage_<repeater_name>
-                yaxis_id: first
+                yaxis_id: left
                 name: Percentage
               - entity: sensor.meshcore_<pubkey>_bat_<repeater_name>
-                yaxis_id: second
+                yaxis_id: right
                 name: Voltage
           - type: custom:apexcharts-card
             header:
@@ -49,13 +49,13 @@ views:
               show: true
             config_templates: default
             yaxis:
-              - id: first
+              - id: left
                 decimals: 0
                 min: ~15
                 max: ~25
             series:
               - entity: sensor.meshcore_<pubkey>_ch1_temperature_<repeater_name>
-                yaxis_id: first
+                yaxis_id: left
                 name: Celsius
       - type: grid
         cards:
@@ -67,14 +67,17 @@ views:
               - default
               - diff
             yaxis:
-              - id: first
+              - id: left
+                decimals: 0
+              - id: right
+                opposite: true
                 decimals: 0
             series:
               - entity: sensor.meshcore_<pubkey>_airtime_<repeater_name>
-                yaxis_id: first
+                yaxis_id: left
                 name: TX
               - entity: sensor.meshcore_<pubkey>_rx_airtime_<repeater_name>
-                yaxis_id: first
+                yaxis_id: right
                 name: RX
           - type: custom:apexcharts-card
             header:
@@ -82,14 +85,30 @@ views:
               show: true
             config_templates: default
             yaxis:
-              - id: first
+              - id: left
+                decimals: 0
+              - id: right
+                opposite: true
                 decimals: 0
             series:
               - entity: sensor.meshcore_<pubkey>_airtime_utilization_<repeater_name>
+                yaxis_id: left
                 name: TX
               - entity: sensor.meshcore_<pubkey>_rx_airtime_utilization_<repeater_name>
-                yaxis_id: first
+                yaxis_id: right
                 name: RX
+          - type: custom:apexcharts-card
+            header:
+              title: Noise Floor
+              show: true
+            config_templates: default
+            yaxis:
+              - id: left
+                decimals: 0
+            series:
+              - entity: sensor.meshcore_<pubkey>_noise_floor_<repeater_name>
+                yaxis_id: left
+                name: Noise Floor
       - type: grid
         cards:
           - type: custom:apexcharts-card
@@ -100,17 +119,17 @@ views:
               - default
               - diff
             yaxis:
-              - id: first
+              - id: left
                 decimals: 0
-              - id: second
+              - id: right
                 opposite: true
                 decimals: 0
             series:
               - entity: sensor.meshcore_<pubkey>_nb_sent_<repeater_name>
-                yaxis_id: first
+                yaxis_id: left
                 name: Sent
               - entity: sensor.meshcore_<pubkey>_nb_recv_<repeater_name>
-                yaxis_id: second
+                yaxis_id: right
                 name: Received
           - type: custom:apexcharts-card
             header:
@@ -120,17 +139,17 @@ views:
               - default
               - diff
             yaxis:
-              - id: first
+              - id: left
                 decimals: 0
-              - id: second
+              - id: right
                 opposite: true
                 decimals: 0
             series:
               - entity: sensor.meshcore_<pubkey>_sent_flood_<repeater_name>
-                yaxis_id: first
+                yaxis_id: left
                 name: Sent
               - entity: sensor.meshcore_<pubkey>_recv_flood_<repeater_name>
-                yaxis_id: second
+                yaxis_id: right
                 name: Received
           - type: custom:apexcharts-card
             header:
@@ -140,17 +159,17 @@ views:
               - default
               - diff
             yaxis:
-              - id: first
+              - id: left
                 decimals: 0
-              - id: second
+              - id: right
                 opposite: true
                 decimals: 0
             series:
               - entity: sensor.meshcore_<pubkey>_sent_direct_<repeater_name>
-                yaxis_id: first
+                yaxis_id: left
                 name: Sent
               - entity: sensor.meshcore_<pubkey>_recv_direct_<repeater_name>
-                yaxis_id: second
+                yaxis_id: right
                 name: Received
       - type: grid
         cards:
@@ -162,18 +181,18 @@ views:
               - default
               - diff
             yaxis:
-              - id: first
+              - id: left
                 decimals: 0
-              - id: second
+              - id: right
                 opposite: true
                 decimals: 0
                 min: 0
             series:
               - entity: sensor.meshcore_<pubkey>_flood_dups_<repeater_name>
-                yaxis_id: first
+                yaxis_id: left
                 name: Flood
               - entity: sensor.meshcore_<pubkey>_direct_dups_<repeater_name>
-                yaxis_id: second
+                yaxis_id: right
                 name: Direct
           - type: custom:apexcharts-card
             header:
@@ -183,17 +202,17 @@ views:
               - default
               - diff
             yaxis:
-              - id: first
+              - id: left
                 decimals: 0
-              - id: second
+              - id: right
                 opposite: true
                 decimals: 0
             series:
               - entity: sensor.meshcore_<pubkey>_request_successes_<repeater_name>
-                yaxis_id: first
+                yaxis_id: left
                 name: Success
               - entity: sensor.meshcore_<pubkey>_request_failures_<repeater_name>
-                yaxis_id: second
+                yaxis_id: right
                 name: Failure
           - type: custom:apexcharts-card
             header:
@@ -202,13 +221,13 @@ views:
             section_mode: true
             config_templates: default
             yaxis:
-              - id: first
+              - id: left
                 decimals: 0
                 min: ~0
                 max: ~10
             series:
               - entity: sensor.meshcore_<pubkey>_tx_queue_len_<repeater_name>
-                yaxis_id: first
+                yaxis_id: left
                 name: Length
     badges:
       - type: entity
