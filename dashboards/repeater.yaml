@@ -1,0 +1,251 @@
+apexcharts_card_templates:
+  default:
+    color_list:
+      - var(--primary-color)
+      - var(--accent-color)
+    all_series_config:
+      stroke_width: 2
+    graph_span: 24h
+    section_mode: true
+  diff:
+    all_series_config:
+      stroke_width: 2
+      group_by:
+        func: diff
+        duration: 1h
+        start_with_last: true
+views:
+  - type: sections
+    max_columns: 4
+    title: <repeater_name_human_readable>
+    sections:
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            header:
+              title: Battery
+              show: true
+            config_templates: default
+            yaxis:
+              - id: first
+                decimals: 0
+                min: ~50
+                max: ~100
+              - id: second
+                opposite: true
+                decimals: 1
+                min: ~3.2
+                max: ~4.2
+            series:
+              - entity: sensor.meshcore_<pubkey>_battery_percentage_<repeater_name>
+                yaxis_id: first
+                name: Percentage
+              - entity: sensor.meshcore_<pubkey>_bat_<repeater_name>
+                yaxis_id: second
+                name: Voltage
+          - type: custom:apexcharts-card
+            header:
+              title: Temperature
+              show: true
+            config_templates: default
+            yaxis:
+              - id: first
+                decimals: 0
+                min: ~15
+                max: ~25
+            series:
+              - entity: sensor.meshcore_<pubkey>_ch1_temperature_<repeater_name>
+                yaxis_id: first
+                name: Celsius
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            header:
+              title: Airtime
+              show: true
+            config_templates:
+              - default
+              - diff
+            yaxis:
+              - id: first
+                decimals: 0
+            series:
+              - entity: sensor.meshcore_<pubkey>_airtime_<repeater_name>
+                yaxis_id: first
+                name: TX
+              - entity: sensor.meshcore_<pubkey>_rx_airtime_<repeater_name>
+                yaxis_id: first
+                name: RX
+          - type: custom:apexcharts-card
+            header:
+              title: Airtime Utilization
+              show: true
+            config_templates: default
+            yaxis:
+              - id: first
+                decimals: 0
+            series:
+              - entity: sensor.meshcore_<pubkey>_airtime_utilization_<repeater_name>
+                name: TX
+              - entity: sensor.meshcore_<pubkey>_rx_airtime_utilization_<repeater_name>
+                yaxis_id: first
+                name: RX
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            header:
+              title: Packets
+              show: true
+            config_templates:
+              - default
+              - diff
+            yaxis:
+              - id: first
+                decimals: 0
+              - id: second
+                opposite: true
+                decimals: 0
+            series:
+              - entity: sensor.meshcore_<pubkey>_nb_sent_<repeater_name>
+                yaxis_id: first
+                name: Sent
+              - entity: sensor.meshcore_<pubkey>_nb_recv_<repeater_name>
+                yaxis_id: second
+                name: Received
+          - type: custom:apexcharts-card
+            header:
+              title: Flood
+              show: true
+            config_templates:
+              - default
+              - diff
+            yaxis:
+              - id: first
+                decimals: 0
+              - id: second
+                opposite: true
+                decimals: 0
+            series:
+              - entity: sensor.meshcore_<pubkey>_sent_flood_<repeater_name>
+                yaxis_id: first
+                name: Sent
+              - entity: sensor.meshcore_<pubkey>_recv_flood_<repeater_name>
+                yaxis_id: second
+                name: Received
+          - type: custom:apexcharts-card
+            header:
+              title: Direct
+              show: true
+            config_templates:
+              - default
+              - diff
+            yaxis:
+              - id: first
+                decimals: 0
+              - id: second
+                opposite: true
+                decimals: 0
+            series:
+              - entity: sensor.meshcore_<pubkey>_sent_direct_<repeater_name>
+                yaxis_id: first
+                name: Sent
+              - entity: sensor.meshcore_<pubkey>_recv_direct_<repeater_name>
+                yaxis_id: second
+                name: Received
+      - type: grid
+        cards:
+          - type: custom:apexcharts-card
+            header:
+              title: Duplicate Packets
+              show: true
+            config_templates:
+              - default
+              - diff
+            yaxis:
+              - id: first
+                decimals: 0
+              - id: second
+                opposite: true
+                decimals: 0
+                min: 0
+            series:
+              - entity: sensor.meshcore_<pubkey>_flood_dups_<repeater_name>
+                yaxis_id: first
+                name: Flood
+              - entity: sensor.meshcore_<pubkey>_direct_dups_<repeater_name>
+                yaxis_id: second
+                name: Direct
+          - type: custom:apexcharts-card
+            header:
+              title: Request
+              show: true
+            config_templates:
+              - default
+              - diff
+            yaxis:
+              - id: first
+                decimals: 0
+              - id: second
+                opposite: true
+                decimals: 0
+            series:
+              - entity: sensor.meshcore_<pubkey>_request_successes_<repeater_name>
+                yaxis_id: first
+                name: Success
+              - entity: sensor.meshcore_<pubkey>_request_failures_<repeater_name>
+                yaxis_id: second
+                name: Failure
+          - type: custom:apexcharts-card
+            header:
+              title: TX Queue
+              show: true
+            section_mode: true
+            config_templates: default
+            yaxis:
+              - id: first
+                decimals: 0
+                min: ~0
+                max: ~10
+            series:
+              - entity: sensor.meshcore_<pubkey>_tx_queue_len_<repeater_name>
+                yaxis_id: first
+                name: Length
+    badges:
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: sensor.meshcore_<pubkey>_battery_percentage_<repeater_name>
+        name: Battery
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: sensor.meshcore_<pubkey>_bat_<repeater_name>
+        name: Voltage
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: sensor.meshcore_<pubkey>_uptime_<repeater_name>
+        name: Uptime
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: sensor.meshcore_<pubkey>_last_rssi_<repeater_name>
+        name: RSSI
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: sensor.meshcore_<pubkey>_last_snr_<repeater_name>
+        name: SNR
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: sensor.meshcore_<pubkey>_noise_floor_<repeater_name>
+        name: Noise Floor
+    dense_section_placement: false
+    cards: []
